@@ -13,14 +13,17 @@ defmodule ProjectManagerWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", ProjectManagerWeb do
-    pipe_through :browser # Use the default browser stack
+  # Ignore this since we're using JSON only
+  # scope "/", ProjectManagerWeb do
+  #   pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
-  end
+  #   get "/", PageController, :index
+  # end
 
   # Other scopes may use custom stacks.
-  # scope "/api", ProjectManagerWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", ProjectManagerWeb do
+    pipe_through :api
+
+    resources "/projects", ProjectController, only: [:index, :show]
+  end
 end
