@@ -13,6 +13,11 @@ defmodule ProjectManagerWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :json_api do
+    plug :accepts, ["json-api"]
+    plug JaSerializer.Deserializer
+  end
+
   # Ignore this since we're using JSON only
   # scope "/", ProjectManagerWeb do
   #   pipe_through :browser # Use the default browser stack
@@ -22,7 +27,7 @@ defmodule ProjectManagerWeb.Router do
 
   # Other scopes may use custom stacks.
   scope "/api", ProjectManagerWeb do
-    pipe_through :api
+    pipe_through :json_api
 
     resources "/projects", ProjectController, only: [:index, :show]
     resources "/documents", DocumentController, only: [:index, :show]
